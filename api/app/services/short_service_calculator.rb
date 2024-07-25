@@ -34,6 +34,16 @@ class ShortServiceCalculator
                                                                .eligible_workfree_days(compensated_service_days))
   end
 
+  def calculate_work_days(ending_date)
+    duration = (ending_date - @beginning_date).to_i
+    duration - ShortServiceCalculator.eligible_workfree_days(duration)
+  end
+
+  def calculate_workfree_days(ending_date)
+    duration = (ending_date - @beginning_date).to_i
+    ShortServiceCalculator.eligible_workfree_days(duration)
+  end
+
   def self.eligible_workfree_days(service_days)
     DAYS_TO_WORKFREE_DAYS.each do |days, workfree_days|
       return workfree_days if days.include? service_days

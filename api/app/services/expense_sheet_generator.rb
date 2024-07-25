@@ -38,14 +38,22 @@ class ExpenseSheetGenerator
   end
 
   def create_expense_sheet(beginning, ending)
+    work_days = DayCalculator.new(beginning, ending).calculate_work_days
+    workfree_days = DayCalculator.new(beginning, ending).calculate_workfree_days
+
+    if @service.last_civil_service?
+      work_days = ShortServiceCalculator.new(beginning).calculate_work_days(ending)
+      workfree_days = ShortServiceCalculator.new(beginning).calculate_workfree_days(ending)
+    end
+
     ExpenseSheet.create(
       user: @service.user,
       ignore_first_day: false,
       ignore_last_day: false,
       beginning: beginning,
       ending: ending,
-      work_days: DayCalculator.new(beginning, ending).calculate_work_days,
-      workfree_days: DayCalculator.new(beginning, ending).calculate_workfree_days,
+      work_days: work_days,
+      workfree_days: workfree_days,
       # TODO: Where to get bank_account_number from?
       bank_account_number: '4470 (200)'
     )
