@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Frontend Build
-        run: docker run --rm -v ./frontend:/var/frontend -w /var/frontend --entrypoint "" node:10 bash -c "yarn install && yarn run cypress:ci"
+        run: docker run --rm -v ./frontend:/var/frontend -w /var/frontend --entrypoint "" cypress/browsers:node10.11.0-chrome75 bash -c "yarn install && yarn run cypress:ci"
 
   frontend-build:
     runs-on: ubuntu-latest
