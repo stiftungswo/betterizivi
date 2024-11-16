@@ -61,7 +61,6 @@ jobs:
           file: "api/dev.Dockerfile"
           push: true
           tags: localhost:5000/swo/izivi-api:latest
-          cache-from: type=gha,ignore-error=false
           cache-to: type=gha,mode=max
           build-args: |
             UID=1001
