@@ -16,9 +16,8 @@ RUN gem install bundler -v "2.1.4" --no-document
 RUN apt-get update && apt-get install -y mariadb-client pdftk
 
 WORKDIR /api
-COPY Gemfile* ./
 COPY . /api
-RUN mkdir /.cache && chown -R $UID:$GID /api /usr/local/bundle /.cache
+RUN mkdir /.cache /bundle && chown -R $UID:$GID /api /usr/local/bundle /.cache /bundle
 USER $UID:$GID
 
 RUN bundle install --jobs=8

@@ -3,9 +3,6 @@ services:
   api:
     image: localhost:5000/swo/izivi-api:latest
     container_name: better_izivi_api
-    volumes:
-      - ./api:/api
-      - ./bundle:/bundle
     working_dir: /api
     depends_on:
       - mysql
