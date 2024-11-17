@@ -67,14 +67,7 @@ jobs:
             UID=1001
             GID=1001
 
-      - name: Migrate DB
-        run: docker compose -f docker-compose.semaphore.yml run -T api /tmp/wait-for-it.sh mysql:3306 -s -t 50 -- bash -c "bundle install --jobs=8 && bin/rails db:create db:schema:load"
-
-      - name: Run Tests
-        run: docker compose -f docker-compose.semaphore.yml run -T api bin/test
-
-      - name: Lint
-        run: docker compose -f docker-compose.semaphore.yml run --no-deps --rm -T api bin/lint
-        
+      - name: Migrate DB && Tests && Lint
+        run: docker compose -f docker-compose.semaphore.yml run -T api /tmp/wait-for-it.sh mysql:3306 -s -t 50 -- bash -c "bundle install --jobs=8 && bin/rails db:create db:schema:load && bin/test && bin/lint"
 
       
