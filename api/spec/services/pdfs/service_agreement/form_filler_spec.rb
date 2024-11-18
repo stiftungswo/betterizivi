@@ -75,7 +75,7 @@ RSpec.describe Pdfs::ServiceAgreement::FormFiller, type: :service do
       end
     end
 
-    # there's some weird hex sequences in there; maybe the output PDF looks OK?
+    # dates aren't filled in automatically at the moment
     xcontext 'when it is french' do
       let(:service) { create :service, :valais, service_data.merge(service_data_defaults) }
 

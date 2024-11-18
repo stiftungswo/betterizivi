@@ -45,6 +45,24 @@ RSpec.describe ExpenseSheetGenerator, type: :service do
       end
     end
 
+    context 'with a service shorter than one month' do
+      let(:service) { create :service, beginning: '2023-08-14', ending: '2023-08-29', service_type: :last }
+
+      it 'creates one new expense sheet' do
+        expect do
+          expense_sheet_generator.create_expense_sheets beginning: service.beginning, ending: service.ending
+        end.to change(ExpenseSheet, :count).by(1)
+      end
+
+      it 'creates the correct ExpenseSheet', :aggregate_failures do
+        create_expense_sheets
+        expect(ExpenseSheet.first.beginning).to eq Date.parse('2023-08-14')
+        expect(ExpenseSheet.first.ending).to eq Date.parse('2023-08-29')
+        expect(ExpenseSheet.first.work_days).to eq 12
+        expect(ExpenseSheet.first.workfree_days).to eq 3
+      end
+    end
+
     context 'when there are no holidays' do
       before { create_expense_sheets }
 
