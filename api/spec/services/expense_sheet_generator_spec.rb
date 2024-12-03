@@ -164,6 +164,36 @@ RSpec.describe ExpenseSheetGenerator, type: :service do
         expect(ExpenseSheet.last.workfree_days).to eq 22
       end
     end
+
+    context 'when MP special case 1' do
+      let(:service) { create :service, beginning: '2024-11-25', ending: '2024-12-16', service_type: :last }
+
+      before { create_expense_sheets }
+
+
+      it 'creates the correct first ExpenseSheet', :aggregate_failures do
+        expect(ExpenseSheet.first.beginning).to eq Date.parse('2024-11-25')
+        expect(ExpenseSheet.first.ending).to eq Date.parse('2024-11-30')
+        expect(ExpenseSheet.first.work_days).to eq 5
+        expect(ExpenseSheet.first.workfree_days).to eq 1
+      end
+
+      it 'creates the correct second ExpenseSheet', :aggregate_failures do
+        expect(ExpenseSheet.second.beginning).to eq Date.parse('2024-12-01')
+        expect(ExpenseSheet.second.ending).to eq Date.parse('2024-12-16')
+        expect(ExpenseSheet.second.work_days).to eq 12
+        expect(ExpenseSheet.second.workfree_days).to eq 3
+      end
+    end
+
+    context 'when MP special case 2' do
+      let(:service) { create :service, beginning: '2025-01-06', ending: '2024-01-23', service_type: :last }
+
+      before { create_expense_sheets }
+
+
+
+    end
   end
 
   describe '#create_missing_expense_sheets' do

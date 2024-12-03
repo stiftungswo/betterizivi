@@ -173,6 +173,15 @@ RSpec.describe Service, type: :model do
     it 'returns the service days of the service' do
       expect(service.service_days).to eq 26
     end
+
+    context 'when service is 17 days long' do
+      let(:service) { build(:service, beginning: beginning, ending: beginning + 17.days) }
+      let(:beginning) { Date.parse('2025-01-06') }
+
+      it 'returns the service days of the service' do
+        expect(service.service_days).to eq 17
+      end
+    end
   end
 
   describe '#eligible_paid_vacation_days' do
